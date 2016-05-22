@@ -13,9 +13,17 @@
 </body>
 <script type="text/javascript">
 onload = function() {
-  draw();
+//  draw();
 };
-function draw() {
+
+
+/**
+* xPoint,yPoint 出現位置
+* width,height サイズ
+* arrowAngle 吹き出しのやじるし？の場所（360°）
+*/
+function draw(xPoint, yPoint, width, height, arrowAngle) {
+  //TODO 位置は画像に対する割合で指定したい気がする
   /* canvas要素のノードオブジェクト */
   var canvas = document.getElementById('canvassample');
   /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
@@ -28,21 +36,22 @@ function draw() {
   //線の太さ
   ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.scale(1, 2);//吹き出しの縦横比
 
-  var radius = 40;//吹き出しの半径
-  
+  //横幅を基準に縦幅との比率をだす
+  var radius = width;//吹き出しの半径
+  ctx.scale(1, height/width);//吹き出しの縦横比
+
   //上を0度にしたいので補正
   // var startAngle360 = 0;//右に吹き出し
   // var startAngle360 = 90;//下に吹き出し
-  var startAngle360 = 180;//左に吹き出し
+  var startAngle360 = arrowAngle;//左に吹き出し
 
   //中心の右真ん中から数えた円の開始位置（キャラクター方向）
   var startAngle= startAngle360 * Math.PI / 180;
   var endAngle = 340 * Math.PI / 180 + startAngle ;
 
   //(中心,中心,半径)
-  ctx.arc(100, 100, radius, startAngle, endAngle, false);
+  ctx.arc(xPoint, yPoint, radius, startAngle, endAngle, false);
 
   //吹き出しのやじるし？の頂点計算
   var arrowTopAngle = (startAngle360 - 10) * Math.PI / 180;
@@ -50,16 +59,21 @@ function draw() {
   topY = (radius + 10 /** 吹き出しの長さ*/) * Math.sin(arrowTopAngle);  // Y座標
 
   //矢印の頂点まで直線
-  ctx.lineTo(topX + 100, topY + 100);
+  ctx.lineTo(topX + xPoint, topY + yPoint);
 
   startX = radius * Math.cos(startAngle);  // 円の開始地点のX座標
   startY = radius * Math.sin(startAngle);  // 円の開始地点のY座標
 
   //円の開始地点まで直線
-  ctx.lineTo(startX + 100, startY + 100);
+  ctx.lineTo(startX + xPoint, startY + yPoint);
   ctx.stroke();
   ctx.fillStyle = "rgb(255, 255, 255)";
   ctx.fill();
+
+  ctx.fillStyle = "rgb(0, 0, 255)";
+  ctx.fillText('現代のコンピュー', 200, 50 ,100 );
+
+  //TODO 文字
 
 
 
