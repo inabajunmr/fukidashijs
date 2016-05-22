@@ -6,7 +6,7 @@
 </head>
 <body>
 	<img src="./image.jpg">
-	<canvas id="canvassample" width="140" height="140"></canvas>
+	<canvas id="canvassample" width="300" height="300"></canvas>
 
 </body>
 <script type="text/javascript">
@@ -22,14 +22,40 @@ function draw() {
   }
   /* 2Dコンテキスト */
   var ctx = canvas.getContext('2d');
-  /* 四角を描く */
   ctx.beginPath();
-  ctx.moveTo(20, 20);
-  ctx.lineTo(120, 20);
-  ctx.lineTo(120, 120);
-  ctx.lineTo(20, 120);
-  ctx.closePath();
+  ctx.scale(1, 2);//吹き出しの縦横比
+
+  var radius = 40;//吹き出しの半径
+  
+  //上を0度にしたいので補正
+  // var startAngle360 = 0;//右に吹き出し
+  // var startAngle360 = 90;//下に吹き出し
+  var startAngle360 = 180;//左に吹き出し
+
+  //中心の右真ん中から数えた円の開始位置（キャラクター方向）
+  var startAngle= startAngle360 * Math.PI / 180;
+  var endAngle = 340 * Math.PI / 180 + startAngle ;
+
+  //(中心,中心,半径)
+  ctx.arc(100, 100, radius, startAngle, endAngle, false);
+
+  //吹き出しのやじるし？の頂点計算
+  var arrowTopAngle = (startAngle360 - 10) * Math.PI / 180;
+  topX = (radius + 10 /** 吹き出しの長さ*/) * Math.cos(arrowTopAngle);  // X座標
+  topY = (radius + 10 /** 吹き出しの長さ*/) * Math.sin(arrowTopAngle);  // Y座標
+
+  //矢印の頂点まで直線
+  ctx.lineTo(topX + 100, topY + 100);
+
+  startX = radius * Math.cos(startAngle);  // 円の開始地点のX座標
+  startY = radius * Math.sin(startAngle);  // 円の開始地点のY座標
+
+  //円の開始地点まで直線
+  ctx.lineTo(startX + 100, startY + 100);
   ctx.stroke();
+
+
+
 }	
 </script>
 </html>
