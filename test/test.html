@@ -5,8 +5,10 @@
     <title>Document</title>
 </head>
 <body>
-	<img src="./image.jpg">
-	<canvas id="canvassample" width="300" height="300"></canvas>
+  <div style="position: relative;" >
+  	<img src="./image.jpg">
+  	<canvas id="canvassample" style="position: absolute;left:0px;top:0px;" width="300" height="300"></canvas>
+  </div>
 
 </body>
 <script type="text/javascript">
@@ -22,6 +24,9 @@ function draw() {
   }
   /* 2Dコンテキスト */
   var ctx = canvas.getContext('2d');
+
+  //線の太さ
+  ctx.lineWidth = 3;
   ctx.beginPath();
   ctx.scale(1, 2);//吹き出しの縦横比
 
@@ -53,6 +58,8 @@ function draw() {
   //円の開始地点まで直線
   ctx.lineTo(startX + 100, startY + 100);
   ctx.stroke();
+  ctx.fillStyle = "rgb(255, 255, 255)";
+  ctx.fill();
 
 
 
